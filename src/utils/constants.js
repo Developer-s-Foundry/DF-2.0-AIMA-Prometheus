@@ -1,4 +1,4 @@
-export const PROMETHEUS_URL = process.env.PROMETHEUS_URL || 'http://localhost:9090';
+export const PROMETHEUS_URL = process.env.PROMETHEUS_URL || 'https://prometheus-server-wkfw.onrender.com';
 export const SERVICE_NAME = 'metrics-consumer-service';
 
 export const METRICS_QUERIES = {
