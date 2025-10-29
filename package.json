@@ -1,0 +1,19 @@
+{
+  "name": "metrics-consumer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "axios": "^1.12.2",
+    "express": "^5.1.0"
+  }
+}
