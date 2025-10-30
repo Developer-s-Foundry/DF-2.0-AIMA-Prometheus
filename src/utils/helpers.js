@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const generateEventId = (prefix = 'event') =>
   `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
