@@ -1,29 +1,22 @@
 import express from 'express';
 import metricsRoutes from './routes/metrics.js';
-import { createConnection } from './queues/connection.js';
+import { APP_CONFIGS } from './config/index.js';
+import { dbInstance } from './config/database.js';
 
 const app = express();
-const PORT = 3001;
-
-createConnection()
-  .then(() => {
-    console.log('✅ RabbitMQ connected');
-  })
-  .catch((error) => {
-    console.log('⚠️  RabbitMQ not connected, continuing without it');
-  });
-
 app.use(express.json());
-
 app.use('/fetch-metrics', metricsRoutes);
 
 app.get('/', (req, res) => {
   res.json({ status: 'Ok', timestamp: new Date().toISOString() });
 });
 
+(async () => {
+  await dbInstance()
+})();
 app.listen(PORT, () => {
   console.log(`Metrics Consumer Service running on port ${PORT}`);
-  console.log(`Fetch metrics at http://localhost:${PORT}/fetch-metrics`);
+  console.log(`Fetch metrics at http://localhost:${APP_CONFIGS.SERVER_PORT}/fetch-metrics`);
 });
 
 export default app;
