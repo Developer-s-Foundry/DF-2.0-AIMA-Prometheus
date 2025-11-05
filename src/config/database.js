@@ -1,6 +1,5 @@
 import {DataSource} from "typeorm"
-import { APP_CONFIGS } from "./index";
-import { join } from "path";
+import { APP_CONFIGS } from "./index.js";
 
 const {
   DATABASE_PASSWORD,
@@ -10,6 +9,7 @@ const {
   DATABASE_USERNAME,
 } = APP_CONFIGS;
 
+
 export const databaseConfig = new DataSource({
   type: "postgres",
   host: `${DATABASE_HOST}`,
@@ -18,12 +18,8 @@ export const databaseConfig = new DataSource({
   password: DATABASE_PASSWORD,
   database: DATABASE_NAME,
   logging: true,
-  entities: APP_CONFIGS.IS_PRODUCTION
-    ? [join(__dirname,"../../models/**/*{.js}")]
-    : ["src/models/**/*{.js}"],
-  migrations: APP_CONFIGS.IS_PRODUCTION
-    ? ["../../database/migrations/**/*{.js}"]
-    : ["src/database/migrations/**/*{.js}"],
+  entities: ["src/models/*{.js}"],
+  migrations: ["src/migrations/*{.js}"]
 });
 
 export const dbInstance = async () => {

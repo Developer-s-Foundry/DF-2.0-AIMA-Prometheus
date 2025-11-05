@@ -1,6 +1,6 @@
 import amqplib from "amqplib";
-import { logger } from "./logger";
-import { APP_CONFIGS } from ".";
+import { logger } from "./logger.js";
+import { APP_CONFIGS } from "./index.js";
 
 
 export async function rabbitMqConnection(){ 

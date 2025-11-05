@@ -5,7 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node src/server.js",
+    "typeorm": "node ./node_modules/typeorm/cli.js",
+    "typeorm:ds": "npm run typeorm -- -d ./src/config/database.js",
+    "migration:generate": "npm run typeorm:ds -- migration:generate",
+    "migration:create": "npm run typeorm:ds -- migration:create",
+    "migration:run": "npm run typeorm:ds -- migration:run",
+    "migration:revert": "npm run typeorm:ds -- migration:revert",
+    "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
   "keywords": [],
@@ -16,6 +22,14 @@
     "axios": "^1.12.2",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "typeorm": "^0.3.27"
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.7",
+    "typeorm": "^0.3.27",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

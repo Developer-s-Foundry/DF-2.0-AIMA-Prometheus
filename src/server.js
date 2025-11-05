@@ -2,6 +2,7 @@ import express from 'express';
 import metricsRoutes from './routes/metrics.js';
 import { APP_CONFIGS } from './config/index.js';
 import { dbInstance } from './config/database.js';
+import { consumeProjectMessages } from './queues/consumer.js';
 
 const app = express();
 app.use(express.json());
@@ -13,10 +14,13 @@ app.get('/', (req, res) => {
 
 (async () => {
   await dbInstance()
+  await consumeProjectMessages();
 })();
+
+const PORT = APP_CONFIGS.SERVER_PORT;
 app.listen(PORT, () => {
   console.log(`Metrics Consumer Service running on port ${PORT}`);
-  console.log(`Fetch metrics at http://localhost:${APP_CONFIGS.SERVER_PORT}/fetch-metrics`);
+  console.log(`Fetch metrics at http://localhost:${PORT}/fetch-metrics`);
 });
 
 export default app;
