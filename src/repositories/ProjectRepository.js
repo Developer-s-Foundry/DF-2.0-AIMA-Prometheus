@@ -5,7 +5,7 @@ export default class ProjectRepository {
   }
 
   async create(creationData) {
-    const entity = this.datasource.query(`INSERT INTO projects 
+    this.datasource.query(`INSERT INTO projects 
         (name, description, base_url, prometheus_metric_url, team_id, owner_id)
         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`, [
         creationData.name,
@@ -15,11 +15,10 @@ export default class ProjectRepository {
         creationData.team_id,
         creationData.owner_id,
         ]);
-    return entity.save();
   }
 
   async update(updateData) {
-    const entity = this.datasource.query(`UPDATE projects SET 
+    this.datasource.query(`UPDATE projects SET 
         name = $1,
         description = $2,
         base_url = $3,
@@ -39,7 +38,7 @@ export default class ProjectRepository {
   }
 
   async delete({id}) {
-    const entity = this.datasource.query(`DELETE FROM projects WHERE id = $1 RETURNING *`, [
+    this.datasource.query(`DELETE FROM projects WHERE id = $1 RETURNING *`, [
       id,
     ])
   }
