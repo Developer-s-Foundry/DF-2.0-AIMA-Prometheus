@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { buildPrometheusUrl } from '../utils/helpers.js';
 import { METRICS_QUERIES } from '../utils/constants.js';
+import EventPublisher from '../services/eventPublisher.js';
 
 class MetricsService {
   static async fetchPrometheusMetrics(query) {
@@ -57,6 +58,11 @@ class MetricsService {
     }
 
     return response.data.data;
+  }
+
+  static async handleMetricsFetch(service_name, metric_url) {
+    const response = await axios.get(metric_url);
+    await EventPublisher.publishMetricsEvent(service_name, response.data);
   }
 }
 

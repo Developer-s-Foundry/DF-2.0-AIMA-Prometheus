@@ -27,8 +27,23 @@ export async function rabbitMqChannel() {
         throw new Error("Failed to create RabbitMQ channel");
      }
      return channel;
-    return connection;
   } catch (error) {
     throw new Error("Failed to connect to RabbitMQ: " + error);
   }
+}
+
+export async function createExchange(exchangeName) {
+   console.log(`Creating exchange "${exchangeName}"`);
+   try {
+      const channel = await rabbitMqChannel();
+      if (!channel) {
+         throw new Error("Failed to create RabbitMQ channel");
+      }
+
+      await channel.assertExchange(exchangeName, "fanout", { durable: false });
+
+      return channel;
+   } catch (error) {
+      throw new Error("Failed to connect to RabbitMQ: " + error);
+   }
 }

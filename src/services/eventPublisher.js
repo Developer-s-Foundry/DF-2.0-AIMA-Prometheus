@@ -1,30 +1,23 @@
-import { isConnected } from '../queues/connection.js';
+// import { isConnected } from '../queues/connection.js';
 import { publishMetrics } from '../queues/producer.js';
 import { generateEventId } from '../utils/helpers.js';
 import { SERVICE_NAME, EVENT_TYPES } from '../utils/constants.js';
 
 class EventPublisher {
-  static async publishMetricsEvent(eventType, metricsData, metadata = {}) {
-    if (!isConnected()) {
-      console.log('RabbitMQ not connected, skipping event publishing');
-      return false;
-    }
-
+  static async publishMetricsEvent(service_name, metricsData) {
     try {
       const event = {
         eventId: generateEventId(),
-        type: eventType,
-        source: SERVICE_NAME,
+        source: service_name,
         timestamp: new Date().toISOString(),
         version: '1.0',
-        metadata,
-        data: metricsData,
+        metrics: metricsData,
       };
 
-      const sent = await publishMetrics(event);
+      const sent = await publishMetrics(service_name, event);
 
       if (sent) {
-        console.log(`📤 Event published: ${eventType}`);
+        console.log(`📤 Event published successfully`);
       }
 
       return sent;
@@ -35,7 +28,7 @@ class EventPublisher {
   }
 
   static async publishErrorEvent(error, context, additionalData = {}) {
-    if (!isConnected()) return false;
+    // if (!isConnected()) return false;
 
     try {
       const errorEvent = {
